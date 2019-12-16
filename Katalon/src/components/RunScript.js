@@ -39,9 +39,9 @@ class RunScript extends Component {
       console.log("level:", key, "info:", info);
     });
 
-    if (allData.data.user_id != "" && allData.data.user_id.length >= 4) {
+    if (allData.data.user_id !== "" && allData.data.user_id.length >= 4) {
     }
-    if (allData.data.environment != "") {
+    if (allData.data.environment !== "") {
     }
   }
 
