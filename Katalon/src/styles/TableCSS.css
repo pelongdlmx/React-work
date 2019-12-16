@@ -1,0 +1,35 @@
+.centered {
+  text-align: center;
+  font-size: 13px;
+}
+
+tbody {
+  font-size: 13px;
+  text-align: center;
+}
+
+.w-auto {
+  width: 100%;
+}
+
+#createScript {
+  font-size: 13px;
+}
+
+#addRemoveButtons {
+  font-size: 13px;
+}
+body {
+  padding-top: 0px;
+}
+
+.user-id {
+  padding-bottom: 10px;
+  display: inline;
+}
+
+.label-user-id {
+  font-size: 11px;
+  padding-right: 10px;
+  display: inline;
+}
