@@ -139,7 +139,15 @@ class RunScript extends Component {
           break;
       }
     });
-    console.log("sqlScript", script);
+    const date = new Date().toISOString();
+    const element = document.createElement("a");
+    const file = new Blob([script], {
+      type: "text/plain"
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = `${date}.sql`;
+    document.body.appendChild(element);
+    element.click();
   }
 
   render() {
