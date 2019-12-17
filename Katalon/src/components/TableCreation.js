@@ -30,7 +30,7 @@ class TableCreation extends Component {
     };
   }
 
-  addRow = data => {
+  addRow(data) {
     let newrow = data + 1;
     let newRows = [];
 
@@ -46,9 +46,9 @@ class TableCreation extends Component {
       rows: newrow,
       data: [...this.state.data, ...newRows]
     });
-  };
+  }
 
-  removeRow = data => {
+  removeRow(data) {
     let newrow = data > 1 ? data - 1 : data;
     let arrayDataState = "";
 
@@ -63,7 +63,7 @@ class TableCreation extends Component {
     this.setState({
       rows: newrow
     });
-  };
+  }
 
   addRemoveButtons() {
     return (
