@@ -16,14 +16,19 @@ class RunScript extends Component {
         ],
         update: [
           "UPDATE ",
-          " SET",
-          " value = '",
+          "SET value = '",
+          "'",
           "last_update_userid = '",
           "last_update_dte = sysdate WHERE action_name = '",
-          " AND variable = '",
-          "; "
+          "' AND variable = '",
+          "'; "
         ],
-        remove: ["DELETE FROM ", " WHERE action_name = '", "'", "; "]
+        remove: [
+          "DELETE FROM ",
+          "WHERE action_name = '",
+          "' AND variable = '",
+          "'; "
+        ]
       },
       environment: {
         uat: ["ANALYTICS_VALIDATION_DATA_TEST "],
@@ -107,10 +112,30 @@ class RunScript extends Component {
             this.state.text_cases.new[2]}`;
           break;
         case "update":
-          console.log("inside switch", info.action);
+          script += `${this.state.text_cases.update[0] +
+            environment +
+            this.state.text_cases.update[1] +
+            info.value +
+            this.state.text_cases.update[2] +
+            ", " +
+            this.state.text_cases.update[3] +
+            infoList.user_id +
+            this.state.text_cases.update[2] +
+            ", " +
+            this.state.text_cases.update[4] +
+            info.action_name +
+            this.state.text_cases.update[5] +
+            info.variable +
+            this.state.text_cases.update[6]}`;
           break;
         case "remove":
-          console.log("inside switch", info.action);
+          script += `${this.state.text_cases.remove[0] +
+            environment +
+            this.state.text_cases.remove[1] +
+            info.action_name +
+            this.state.text_cases.remove[2] +
+            info.variable +
+            this.state.text_cases.remove[3]}`;
           break;
       }
     });
