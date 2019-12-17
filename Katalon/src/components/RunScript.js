@@ -26,31 +26,102 @@ class RunScript extends Component {
         remove: ["DELETE FROM ", " WHERE action_name = '", "'", "; "]
       },
       environment: {
-        uat: ["ANALYTICS_VALIDATION_DATA_TEST"],
-        prod: ["ANALYTICS_VALIDATION_DATA"]
-      }
+        uat: ["ANALYTICS_VALIDATION_DATA_TEST "],
+        prod: ["ANALYTICS_VALIDATION_DATA "]
+      },
+      fail: ["Please, introduce: ", "Is missing information in the line #"]
     };
   }
 
-  createScript(data) {
+  validations(data) {
     let allData = data;
-    console.log("data", allData.data.data);
-    allData.data.data.map((info, key) => {
-      console.log("level:", key, "info:", info);
-    });
+    if (allData.data.user_id === "") {
+      this.missingData("User ID");
+    } else if (allData.data.environment === "") {
+      this.missingData("Environment");
+    } else {
+      let infoList = this.props.data;
+      let errorList = [];
 
-    if (allData.data.user_id !== "" && allData.data.user_id.length >= 4) {
-    }
-    if (allData.data.environment !== "") {
+      infoList.data.map((info, key) => {
+        if (
+          info.action === "" ||
+          info.action_name === "" ||
+          info.variable === "" ||
+          info.value === ""
+        ) {
+          errorList.push(key + 1);
+        }
+      });
+      if (errorList.length > 0) {
+        this.missingData(null, errorList);
+      } else {
+        this.createScript(infoList);
+      }
     }
   }
 
+  missingData(component, key) {
+    key === undefined
+      ? alert(`${this.state.fail[0]}${component}`)
+      : alert(`${this.state.fail[1]}${key}`);
+  }
+
+  createScript(infoList) {
+    let environment = this.state.environment[infoList.environment][0];
+
+    let script = "";
+    let sqlScript = infoList.data.map((info, key) => {
+      switch (info.action) {
+        case "new":
+          script += `${this.state.text_cases.new[0] +
+            environment +
+            this.state.text_cases.new[1] +
+            this.state.text_cases.new[3] +
+            info.url +
+            this.state.text_cases.new[3] +
+            ", " +
+            this.state.text_cases.new[3] +
+            info.action_name +
+            this.state.text_cases.new[3] +
+            ", " +
+            this.state.text_cases.new[3] +
+            info.variable +
+            this.state.text_cases.new[3] +
+            ", " +
+            this.state.text_cases.new[3] +
+            info.value +
+            this.state.text_cases.new[3] +
+            ", " +
+            this.state.text_cases.new[5] +
+            ", " +
+            this.state.text_cases.new[5] +
+            ", " +
+            this.state.text_cases.new[3] +
+            infoList.user_id +
+            this.state.text_cases.new[3] +
+            ", " +
+            this.state.text_cases.new[3] +
+            infoList.user_id +
+            this.state.text_cases.new[3] +
+            this.state.text_cases.new[2]}`;
+          break;
+        case "update":
+          console.log("inside switch", info.action);
+          break;
+        case "remove":
+          console.log("inside switch", info.action);
+          break;
+      }
+    });
+    console.log("sqlScript", script);
+  }
+
   render() {
-    console.log("state script", this.state);
     return (
       <Fragment>
         <div id="createScript" className="col-md-4 offset-md-3">
-          <button type="button" onClick={() => this.createScript(this.props)}>
+          <button type="button" onClick={() => this.validations(this.props)}>
             Create Script
           </button>
         </div>

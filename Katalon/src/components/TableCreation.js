@@ -21,7 +21,8 @@ class TableCreation extends Component {
           action: "",
           action_name: "",
           variable: "",
-          value: ""
+          value: "",
+          url: ""
         }
       ],
       user_id: "",
@@ -37,7 +38,8 @@ class TableCreation extends Component {
       action: "",
       action_name: "",
       variable: "",
-      value: ""
+      value: "",
+      url: ""
     });
 
     this.setState({
@@ -50,13 +52,15 @@ class TableCreation extends Component {
     let newrow = data > 1 ? data - 1 : data;
     let arrayDataState = "";
 
-    if (this.state.data.length >= 2) {
+    if (this.state.data.length > 1) {
       arrayDataState = this.state.data;
       arrayDataState.pop();
+      this.setState({
+        data: arrayDataState
+      });
     }
 
     this.setState({
-      data: arrayDataState,
       rows: newrow
     });
   };
@@ -137,12 +141,14 @@ class TableCreation extends Component {
               <th scope="col">Action Name</th>
               <th scope="col">Variable</th>
               <th scope="col">Value</th>
+              <th scope="col">URL (only for New Actions)</th>
             </tr>
           </thead>
           <tbody id="tbody">
             <Rowbyrow
               rows={this.state.rows}
               globalHandler={this.globalHandler}
+              flag={this.state.data}
             />
           </tbody>
         </table>

@@ -7,12 +7,14 @@ class InputText extends Component {
     this.handleChangeVariable = this.handleChangeVariable.bind(this);
     this.handleChangeValue = this.handleChangeValue.bind(this);
     this.handleChangeActionName = this.handleChangeActionName.bind(this);
+    this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       value: "",
       variable: "",
-      action_name: ""
+      action_name: "",
+      url: ""
     };
   }
 
@@ -28,8 +30,12 @@ class InputText extends Component {
     this.setState({ value: event.target.value });
   }
 
+  handleChangeUrl(event) {
+    this.setState({ url: event.target.value });
+  }
+
   handleChange(event, type, id) {
-    let value = event.target.value;
+    let value = event.target.value.replace(/\'/g, '"');
     let typeData = type;
     let rowId = id;
     this.props.globalHandler(value, typeData, rowId);
@@ -37,6 +43,8 @@ class InputText extends Component {
 
   render() {
     let rowId = this.props.id;
+    let flag = this.props.flag[rowId - 1].action === "new" ? true : false;
+
     return (
       <Fragment>
         <td>
@@ -77,6 +85,20 @@ class InputText extends Component {
             }}
             style={{ width: "100%" }}
             placeholder="e.g. MK10DN512VLK10R"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            name="url"
+            value={this.state.url}
+            onChange={e => {
+              this.handleChangeUrl(e);
+              this.handleChange(e, "url", rowId);
+            }}
+            style={{ width: "100%" }}
+            placeholder="e.g. www.nxp.com"
+            disabled={!flag}
           />
         </td>
       </Fragment>

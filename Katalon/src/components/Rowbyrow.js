@@ -20,7 +20,11 @@ class Rowbyrow extends Component {
       items.push(
         <tr id={id}>
           <SelectComponent id={id} globalHandler={this.props.globalHandler} />
-          <InputText id={id} globalHandler={this.props.globalHandler} />
+          <InputText
+            id={id}
+            globalHandler={this.props.globalHandler}
+            flag={this.props.flag}
+          />
         </tr>
       );
     }
