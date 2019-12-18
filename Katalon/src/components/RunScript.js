@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import Swal from "sweetalert2";
 
 class RunScript extends Component {
   constructor(props) {
@@ -53,7 +54,10 @@ class RunScript extends Component {
           info.action === "" ||
           info.action_name === "" ||
           info.variable === "" ||
-          info.value === ""
+          info.value === "" ||
+          info.action === "new"
+            ? info.url === ""
+            : null
         ) {
           errorList.push(key + 1);
         }
@@ -67,9 +71,15 @@ class RunScript extends Component {
   }
 
   missingData(component, key) {
-    key === undefined
-      ? alert(`${this.state.fail[0]}${component}`)
-      : alert(`${this.state.fail[1]}${key}`);
+    Swal.fire({
+      title: "Error!",
+      text:
+        key === undefined
+          ? `${this.state.fail[0]}${component}`
+          : `${this.state.fail[1]}${key}`,
+      icon: "error",
+      confirmButtonText: "Got it! "
+    });
   }
 
   createScript(infoList) {
@@ -79,63 +89,69 @@ class RunScript extends Component {
     let sqlScript = infoList.data.map((info, key) => {
       switch (info.action) {
         case "new":
-          script += `${this.state.text_cases.new[0] +
-            environment +
-            this.state.text_cases.new[1] +
-            this.state.text_cases.new[3] +
-            info.url +
-            this.state.text_cases.new[3] +
-            ", " +
-            this.state.text_cases.new[3] +
-            info.action_name +
-            this.state.text_cases.new[3] +
-            ", " +
-            this.state.text_cases.new[3] +
-            info.variable +
-            this.state.text_cases.new[3] +
-            ", " +
-            this.state.text_cases.new[3] +
-            info.value +
-            this.state.text_cases.new[3] +
-            ", " +
-            this.state.text_cases.new[5] +
-            ", " +
-            this.state.text_cases.new[5] +
-            ", " +
-            this.state.text_cases.new[3] +
-            infoList.user_id +
-            this.state.text_cases.new[3] +
-            ", " +
-            this.state.text_cases.new[3] +
-            infoList.user_id +
-            this.state.text_cases.new[3] +
-            this.state.text_cases.new[2]}`;
+          script +=
+            `${this.state.text_cases.new[0] +
+              environment +
+              this.state.text_cases.new[1] +
+              this.state.text_cases.new[3] +
+              info.url +
+              this.state.text_cases.new[3] +
+              ", " +
+              this.state.text_cases.new[3] +
+              info.action_name +
+              this.state.text_cases.new[3] +
+              ", " +
+              this.state.text_cases.new[3] +
+              info.variable +
+              this.state.text_cases.new[3] +
+              ", " +
+              this.state.text_cases.new[3] +
+              info.value +
+              this.state.text_cases.new[3] +
+              ", " +
+              this.state.text_cases.new[5] +
+              ", " +
+              this.state.text_cases.new[5] +
+              ", " +
+              this.state.text_cases.new[3] +
+              infoList.user_id +
+              this.state.text_cases.new[3] +
+              ", " +
+              this.state.text_cases.new[3] +
+              infoList.user_id +
+              this.state.text_cases.new[3] +
+              this.state.text_cases.new[2] +
+              "\n\r"}` + "\n\r";
           break;
         case "update":
-          script += `${this.state.text_cases.update[0] +
-            environment +
-            this.state.text_cases.update[1] +
-            info.value +
-            this.state.text_cases.update[2] +
-            ", " +
-            this.state.text_cases.update[3] +
-            infoList.user_id +
-            this.state.text_cases.update[2] +
-            ", " +
-            this.state.text_cases.update[4] +
-            info.action_name +
-            this.state.text_cases.update[5] +
-            info.variable +
-            this.state.text_cases.update[6]}`;
+          script +=
+            `${this.state.text_cases.update[0] +
+              environment +
+              this.state.text_cases.update[1] +
+              info.value +
+              this.state.text_cases.update[2] +
+              ", " +
+              this.state.text_cases.update[3] +
+              infoList.user_id +
+              this.state.text_cases.update[2] +
+              ", " +
+              this.state.text_cases.update[4] +
+              info.action_name +
+              this.state.text_cases.update[5] +
+              info.variable +
+              this.state.text_cases.update[6] +
+              "\n\r"}` + "\n\r";
           break;
         case "remove":
-          script += `${this.state.text_cases.remove[0] +
-            environment +
-            this.state.text_cases.remove[1] +
-            info.action_name +
-            this.state.text_cases.remove[2] +
-            info.variable +
-            this.state.text_cases.remove[3]}`;
+          script +=
+            `${this.state.text_cases.remove[0] +
+              environment +
+              this.state.text_cases.remove[1] +
+              info.action_name +
+              this.state.text_cases.remove[2] +
+              info.variable +
+              this.state.text_cases.remove[3] +
+              "\n\r"}` + "\n\r";
           break;
       }
     });
@@ -154,9 +170,13 @@ class RunScript extends Component {
     return (
       <Fragment>
         <div id="createScript" className="col-md-4 offset-md-3">
-          <button type="button" className="btn btn-success" onClick={() => this.validations(this.props)}>
+          <span
+            type="button"
+            className="btn btn-success"
+            onClick={() => this.validations(this.props)}
+          >
             Create Script
-          </button>
+          </span>
         </div>
       </Fragment>
     );

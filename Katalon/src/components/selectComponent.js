@@ -43,7 +43,7 @@ class SelectComponent extends Component {
               this.handleChange(e, "action", rowId);
             }}
           >
-            <option value="" selected>
+            <option value="" defaultValue>
               Select
             </option>
             <option value="new">New</option>

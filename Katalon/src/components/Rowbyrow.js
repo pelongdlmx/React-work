@@ -18,7 +18,7 @@ class Rowbyrow extends Component {
     for (var i = 0; i < this.props.rows; i++) {
       var id = i + 1;
       items.push(
-        <tr id={id}>
+        <tr id={id} key={id}>
           <SelectComponent id={id} globalHandler={this.props.globalHandler} />
           <InputText
             id={id}

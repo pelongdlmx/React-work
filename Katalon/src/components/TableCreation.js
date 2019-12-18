@@ -3,6 +3,7 @@ import Rowbyrow from "./Rowbyrow";
 import "../styles/TableCSS.css";
 import { array } from "prop-types";
 import RunScript from "./RunScript";
+import Swal from "sweetalert2";
 
 class TableCreation extends Component {
   constructor(props) {
@@ -15,8 +16,22 @@ class TableCreation extends Component {
     this.userId_environment = this.userId_environment.bind(this);
 
     this.state = {
-      rows: 1,
+      rows: 3,
       data: [
+        {
+          action: "",
+          action_name: "",
+          variable: "",
+          value: "",
+          url: ""
+        },
+        {
+          action: "",
+          action_name: "",
+          variable: "",
+          value: "",
+          url: ""
+        },
         {
           action: "",
           action_name: "",
@@ -50,30 +65,50 @@ class TableCreation extends Component {
 
   removeRow(data) {
     let newrow = data > 1 ? data - 1 : data;
-    let arrayDataState = "";
+    let arrayDataState = this.state.data.length;
+    if (data > 1) {
+      Swal.fire({
+        text: `Are you sure want to remove the line # ${arrayDataState}?`,
+        title: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          this.setState({
+            rows: newrow
+          });
+          this.removeData(this.state.data);
+        }
+      });
+    }
+  }
 
-    if (this.state.data.length > 1) {
-      arrayDataState = this.state.data;
+  removeData(data) {
+    if (data.length > 1) {
+      let arrayDataState = data;
       arrayDataState.pop();
       this.setState({
         data: arrayDataState
       });
     }
-
-    this.setState({
-      rows: newrow
-    });
   }
 
   addRemoveButtons() {
     return (
       <div id="addRemoveButtons" className="col-md-4 offset-md-1">
-        <button type="button" className="btn btn-outline-dark" onClick={() => this.addRow(this.state.rows)}>
-          <span className="icon-plus-circle2" />
-        </button>
-        <button type="button" className="btn btn-outline-dark" onClick={() => this.removeRow(this.state.rows)}>
-          <span className="icon-minus-circle2" />
-        </button>
+        <span
+          type="button"
+          className="btn btn-outline-dark icon-plus-circle2"
+          onClick={() => this.addRow(this.state.rows)}
+        ></span>
+        <span
+          type="button"
+          className="btn btn-outline-dark icon-minus-circle2"
+          onClick={() => this.removeRow(this.state.rows)}
+        ></span>
       </div>
     );
   }
@@ -81,16 +116,21 @@ class TableCreation extends Component {
   userId_environment() {
     return (
       <div className="col-md-12 user-id">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">User ID:</span>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span
+                  className="input-group-text"
+                  id="inputGroup-sizing-default"
+                >
+                  User ID:
+                </span>
               </div>
-              <input 
-                type="text" 
-                class="form-control" 
-                aria-label="Default" 
+              <input
+                type="text"
+                className="form-control"
+                aria-label="Default"
                 aria-describedby="inputGroup-sizing-default"
                 name="environment"
                 value={this.state.user_id}
@@ -99,23 +139,28 @@ class TableCreation extends Component {
               />
             </div>
           </div>
-          <div class="form-group col-md-6">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Environment:</span>
-              </div>
-              <select 
-                  class="form-control" 
-                  name="environment"
-                  id={"environment_selector"}
-                  onChange={this.handleChangeEnvironment}
+          <div className="form-group col-md-6">
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span
+                  className="input-group-text"
+                  id="inputGroup-sizing-default"
                 >
-                  <option value="" selected>
-                    Select
-                  </option>
-                  <option value="uat">UAT</option>
-                  <option value="prod">Production</option>
-                </select>
+                  Environment:
+                </span>
+              </div>
+              <select
+                className="form-control"
+                name="environment"
+                id={"environment_selector"}
+                onChange={this.handleChangeEnvironment}
+              >
+                <option value="" defaultValue>
+                  Select
+                </option>
+                <option value="uat">UAT</option>
+                <option value="prod">Production</option>
+              </select>
             </div>
           </div>
         </div>
