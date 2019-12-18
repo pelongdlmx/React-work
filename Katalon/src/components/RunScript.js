@@ -154,7 +154,7 @@ class RunScript extends Component {
     return (
       <Fragment>
         <div id="createScript" className="col-md-4 offset-md-3">
-          <button type="button" onClick={() => this.validations(this.props)}>
+          <button type="button" className="btn btn-success" onClick={() => this.validations(this.props)}>
             Create Script
           </button>
         </div>
