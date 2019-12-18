@@ -68,10 +68,10 @@ class TableCreation extends Component {
   addRemoveButtons() {
     return (
       <div id="addRemoveButtons" className="col-md-4 offset-md-1">
-        <button type="button" onClick={() => this.addRow(this.state.rows)}>
+        <button type="button" className="btn btn-outline-dark" onClick={() => this.addRow(this.state.rows)}>
           <span className="icon-plus-circle2" />
         </button>
-        <button type="button" onClick={() => this.removeRow(this.state.rows)}>
+        <button type="button" className="btn btn-outline-dark" onClick={() => this.removeRow(this.state.rows)}>
           <span className="icon-minus-circle2" />
         </button>
       </div>
@@ -80,30 +80,44 @@ class TableCreation extends Component {
 
   userId_environment() {
     return (
-      <div className="row">
-        <div className="col-md-12 user-id">
-          <label className="label-user-id">User ID:</label>
-          <input
-            type="text"
-            name="environment"
-            value={this.state.user_id}
-            onChange={this.handleChangeID}
-            style={{ width: "10%", marginRight: "20px" }}
-            placeholder="NXF00000"
-          />
-          <label className="label-user-id">Environment:</label>
-          <select
-            name="environment"
-            id={"environment_selector"}
-            style={{ width: "10%", fontSize: "11px" }}
-            onChange={this.handleChangeEnvironment}
-          >
-            <option value="" selected>
-              Select
-            </option>
-            <option value="uat">UAT</option>
-            <option value="prod">Production</option>
-          </select>
+      <div className="col-md-12 user-id">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">User ID:</span>
+              </div>
+              <input 
+                type="text" 
+                class="form-control" 
+                aria-label="Default" 
+                aria-describedby="inputGroup-sizing-default"
+                name="environment"
+                value={this.state.user_id}
+                onChange={this.handleChangeID}
+                placeholder="NXF00000"
+              />
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Environment:</span>
+              </div>
+              <select 
+                  class="form-control" 
+                  name="environment"
+                  id={"environment_selector"}
+                  onChange={this.handleChangeEnvironment}
+                >
+                  <option value="" selected>
+                    Select
+                  </option>
+                  <option value="uat">UAT</option>
+                  <option value="prod">Production</option>
+                </select>
+            </div>
+          </div>
         </div>
       </div>
     );
