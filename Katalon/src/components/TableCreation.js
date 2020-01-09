@@ -195,7 +195,7 @@ class TableCreation extends Component {
 
   addRemoveButtons() {
     return (
-      <div id="addRemoveButtons" className="col-md-4 offset-md-1">
+      <div id="addRemoveButtons" className="col-md-4 offset-md-2">
         <span
           type="button"
           className="btn btn-outline-dark icon-plus-circle2"
