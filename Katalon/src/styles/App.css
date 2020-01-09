@@ -69,6 +69,13 @@
   width: 11%;
 }
 
+.centerP {
+  display: block;
+  margin-left: 13.5em;
+  margin-right: auto;
+  width: 100%;
+}
+
 .centerUB {
   display: block;
   margin-left: auto;
@@ -84,43 +91,30 @@
 }
 .file-upload .file-select {
   display: block;
-  border: 2px solid #dce4ec;
+  /* border: 2px solid #dce4ec; */
   color: #34495e;
   cursor: pointer;
-  height: 60px;
+  height: 110px;
   line-height: 40px;
   text-align: left;
-  background: #ffffff;
+  /* background: #ffffff; */
   overflow: hidden;
   position: relative;
 }
 .file-upload .file-select .file-select-button {
-  background: #dce4ec;
+  /* background: #dce4ec; */
   padding: 0 10px;
   display: inline-block;
-  height: 60px;
+  height: 110px;
   line-height: 40px;
+  margin-top: 10px;
 }
 .file-upload .file-select .file-select-name {
   line-height: 40px;
   display: inline-block;
   padding: 0 10px;
 }
-.file-upload .file-select:hover {
-  border-color: #34495e;
-  transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-}
-.file-upload .file-select:hover .file-select-button {
-  background: #34495e;
-  color: #ffffff;
-  transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-}
+
 .file-upload.active .file-select {
   border-color: #3fa46a;
   transition: all 0.2s ease-in-out;
@@ -154,26 +148,32 @@
   cursor: default;
   display: block;
   border: 2px solid #dce4ec;
-  color: #34495e;
+  /* color: #34495e; */
   cursor: pointer;
   height: 40px;
   line-height: 40px;
   margin-top: 5px;
   text-align: left;
-  background: #ffffff;
+  /* background: #ffffff; */
   overflow: hidden;
   position: relative;
 }
-.file-upload .file-select.file-select-disabled:hover .file-select-button {
-  background: #dce4ec;
-  color: #666666;
-  padding: 0 10px;
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
+
+.wrapper {
+  /* width: 500px; */
+  margin: 0 auto;
+  margin-top: 40px;
 }
-.file-upload .file-select.file-select-disabled:hover .file-select-name {
-  line-height: 40px;
-  display: inline-block;
-  padding: 0 10px;
+.fileDropBox {
+  width: 44em;
+  line-height: 10em;
+  border: 1px dashed gray;
+  text-align: center;
+  color: gray;
+  border-radius: 7px;
+}
+
+.textDropbox {
+  color: gray;
+  font-size: 14px;
 }

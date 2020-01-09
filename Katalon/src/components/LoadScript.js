@@ -41,11 +41,12 @@ class LoadScript extends Component {
   render() {
     return (
       <Fragment>
-        <div className="centerUB">
-          <div className="file-upload">
+        <div className="centerUB wrapper">
+          <div className="file-upload fileDropBox">
             <div className="file-select">
               <div className="file-select-button" id="fileName">
                 <img className="center" src={UploadIMG} />
+                <p className="centerP textDropbox">Drag & Drop your file</p>
               </div>
               <input
                 type="file"
