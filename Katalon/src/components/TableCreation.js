@@ -4,6 +4,7 @@ import "../styles/TableCSS.css";
 import { array } from "prop-types";
 import RunScript from "./RunScript";
 import Swal from "sweetalert2";
+import LoadScript from "./LoadScript";
 
 class TableCreation extends Component {
   constructor(props) {
@@ -14,9 +15,14 @@ class TableCreation extends Component {
     this.handleChangeEnvironment = this.handleChangeEnvironment.bind(this);
     this.globalHandler = this.globalHandler.bind(this);
     this.userId_environment = this.userId_environment.bind(this);
+    this.handleFileChosen = this.handleFileChosen.bind(this);
+    // this.splitDataLoaded = this.splitDataLoaded.bind(this);
 
     this.state = {
+      importedData: "",
+      loaded: false,
       rows: 3,
+      edited: false,
       data: [
         {
           action: "",
@@ -43,6 +49,95 @@ class TableCreation extends Component {
       user_id: "",
       environment: ""
     };
+  }
+
+  handleFileChosen(file) {
+    let newArray = file.split(/(?:\\[rn]|[\r\n]+)+/g);
+    newArray.map((data, key) => {
+      data === "" ? newArray.splice(key, 1) : null;
+    });
+
+    let importedData = [];
+    let user_id = "";
+    let environment = "";
+    let rows = newArray.length;
+    let invalidFile = false;
+
+    newArray.forEach(function(data) {
+      environment = data.indexOf("_DATA_TEST") != -1 ? "uat" : "prod";
+      let actionType =
+        data.indexOf("INSERT INTO") != -1
+          ? "new"
+          : data.indexOf("UPDATE") != -1
+          ? "update"
+          : data.indexOf("DELETE FROM") != -1
+          ? "remove"
+          : "invalid";
+
+      switch (actionType) {
+        case "new":
+          let newCase = data.split("(");
+          let dataToWork = newCase[2].replace(/\'/g, "").split(",");
+          user_id = dataToWork[6];
+          importedData.push({
+            action: "new",
+            action_name: dataToWork[1].replace(/\s/g, ""),
+            variable: dataToWork[2].replace(/\s/g, ""),
+            value: dataToWork[3].replace(/\s/g, ""),
+            url: dataToWork[0].replace(/\s/g, "")
+          });
+          break;
+        case "update":
+          let updateCase = data
+            .substring(data.lastIndexOf("SET") + 4, data.lastIndexOf(";"))
+            .split(/\'/g);
+
+          user_id = updateCase[3].replace(/\'/g, "").replace(";", "");
+          importedData.push({
+            action: "update",
+            action_name: updateCase[5].replace(/\'/g, ""),
+            variable: updateCase[7].replace(/\'/g, "").replace(";", ""),
+            value: updateCase[1].replace(/\'/g, "").replace(",", ""),
+            url: ""
+          });
+
+          break;
+        case "remove":
+          let removeCase = data
+            .substring(data.lastIndexOf("WHERE") + 4, data.lastIndexOf(";"))
+            .split(/\'/g);
+
+          importedData.push({
+            action: "remove",
+            action_name: removeCase[1].replace(/\'/g, ""),
+            variable: removeCase[3].replace(/\'/g, "").replace(";", ""),
+            value: "",
+            url: ""
+          });
+          break;
+        case "invalid":
+          invalidFile = true;
+          break;
+      }
+    });
+
+    if (invalidFile) {
+      Swal.fire({
+        title: "Error!",
+        text: "Invalidad file format. Cannot load file",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    } else {
+      this.setState({
+        rows: rows,
+        user_id: user_id.replace(/\s/g, "").replace(",", ""),
+        environment: environment,
+        importedData: file,
+        data: importedData,
+        loaded: true
+      });
+    }
   }
 
   addRow(data) {
@@ -158,8 +253,15 @@ class TableCreation extends Component {
                 <option value="" defaultValue>
                   Select
                 </option>
-                <option value="uat">UAT</option>
-                <option value="prod">Production</option>
+                <option value="uat" selected={this.state.environment === "uat"}>
+                  UAT
+                </option>
+                <option
+                  value="prod"
+                  selected={this.state.environment === "prod"}
+                >
+                  Production
+                </option>
               </select>
             </div>
           </div>
@@ -183,12 +285,14 @@ class TableCreation extends Component {
       this.setState({
         data: masterData.map((data, key) =>
           key === level - 1 ? { ...data, [type]: event } : data
-        )
+        ),
+        edited: true
       });
     }
   }
 
   render() {
+    this.state.loaded ? console.log("cargando archivo") : null;
     return (
       <Fragment>
         {this.userId_environment()}
@@ -207,6 +311,7 @@ class TableCreation extends Component {
             <Rowbyrow
               rows={this.state.rows}
               globalHandler={this.globalHandler}
+              globalState={this.state}
               flag={this.state.data}
             />
           </tbody>
@@ -216,6 +321,10 @@ class TableCreation extends Component {
             {this.addRemoveButtons()}
             <RunScript data={this.state} />
           </div>
+          <LoadScript
+            mainState={this.state}
+            handleFileChosen={file => this.handleFileChosen(file)}
+          />
         </div>
       </Fragment>
     );

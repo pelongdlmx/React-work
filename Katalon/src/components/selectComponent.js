@@ -31,6 +31,8 @@ class SelectComponent extends Component {
 
   render() {
     let rowId = this.props.id;
+    let typeValue = this.props.globalState.data[rowId - 1].action;
+
     return (
       <Fragment>
         <td>{rowId}</td>
@@ -46,9 +48,15 @@ class SelectComponent extends Component {
             <option value="" defaultValue>
               Select
             </option>
-            <option value="new">New</option>
-            <option value="update">Update</option>
-            <option value="remove">Remove</option>
+            <option value="new" selected={typeValue === "new"}>
+              New
+            </option>
+            <option value="update" selected={typeValue === "update"}>
+              Update
+            </option>
+            <option value="remove" selected={typeValue === "remove"}>
+              Remove
+            </option>
           </select>
         </td>
       </Fragment>

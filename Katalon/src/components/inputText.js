@@ -51,7 +51,7 @@ class InputText extends Component {
           <input
             type="text"
             name="action_name"
-            value={this.state.action_name}
+            value={this.props.flag[rowId - 1].action_name}
             onChange={this.handleChangeActionName}
             onChange={e => {
               this.handleChangeActionName(e);
@@ -65,7 +65,7 @@ class InputText extends Component {
           <input
             type="text"
             name="variable"
-            value={this.state.variable}
+            value={this.props.flag[rowId - 1].variable}
             onChange={e => {
               this.handleChangeVariable(e);
               this.handleChange(e, "variable", rowId);
@@ -78,7 +78,7 @@ class InputText extends Component {
           <input
             type="text"
             name="value"
-            value={this.state.value}
+            value={this.props.flag[rowId - 1].value}
             onChange={e => {
               this.handleChangeValue(e);
               this.handleChange(e, "value", rowId);
@@ -91,7 +91,7 @@ class InputText extends Component {
           <input
             type="text"
             name="url"
-            value={this.state.url}
+            value={this.props.flag[rowId - 1].url}
             onChange={e => {
               this.handleChangeUrl(e);
               this.handleChange(e, "url", rowId);

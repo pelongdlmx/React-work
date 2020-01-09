@@ -169,7 +169,7 @@ class RunScript extends Component {
   render() {
     return (
       <Fragment>
-        <div id="createScript" className="col-md-4 offset-md-3">
+        <div id="createScript" className="col-md-2 offset-md-1">
           <span
             type="button"
             className="btn btn-success"
