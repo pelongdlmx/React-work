@@ -76,12 +76,12 @@
   width: 100%;
 }
 
-.centerUB {
+/* .centerUB {
   display: block;
   margin-left: auto;
   margin-right: auto;
   padding-top: 35px;
-}
+} */
 
 .file-upload {
   display: block;

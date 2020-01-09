@@ -1,3 +1,4 @@
+/* global dataSheetObj, dataSheetLoaded $*/
 import React, { Component, Fragment } from "react";
 import Rowbyrow from "./Rowbyrow";
 import "../styles/TableCSS.css";
@@ -292,8 +293,31 @@ class TableCreation extends Component {
     }
   }
 
+  componentDidMount() {
+    if (window.dataSheetLoaded) {
+      let globalData = window.dataSheetObj;
+      Swal.fire({
+        title: `There's some existing information from Analyzer`,
+        text: "Do you want to load it?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes!"
+      }).then(result => {
+        if (result.value) {
+          this.setState({
+            data: globalData.data,
+            rows: globalData.rows
+          });
+        }
+      });
+    }
+  }
+
   render() {
-    this.state.loaded ? console.log("cargando archivo") : null;
+    // console.log("global variable", window.dataSheetLoaded);
+
     return (
       <Fragment>
         {this.userId_environment()}
