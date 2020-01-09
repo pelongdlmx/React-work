@@ -43,7 +43,9 @@ class InputText extends Component {
 
   render() {
     let rowId = this.props.id;
-    let flag = this.props.flag[rowId - 1].action === "new" ? true : false;
+    let flagNew = this.props.flag[rowId - 1].action === "new" ? true : false;
+    let flagRemove =
+      this.props.flag[rowId - 1].action === "remove" ? true : false;
 
     return (
       <Fragment>
@@ -85,6 +87,7 @@ class InputText extends Component {
             }}
             style={{ width: "100%" }}
             placeholder="e.g. MK10DN512VLK10R"
+            disabled={flagRemove}
           />
         </td>
         <td>
@@ -98,7 +101,7 @@ class InputText extends Component {
             }}
             style={{ width: "100%" }}
             placeholder="e.g. www.nxp.com"
-            disabled={!flag}
+            disabled={!flagNew}
           />
         </td>
       </Fragment>

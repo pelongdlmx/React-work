@@ -293,7 +293,7 @@ class TableCreation extends Component {
     }
   }
 
-  componentDidMount() {
+  infoFromAnalyzer() {
     if (window.dataSheetLoaded) {
       let globalData = window.dataSheetObj;
       Swal.fire({
@@ -315,9 +315,11 @@ class TableCreation extends Component {
     }
   }
 
-  render() {
-    // console.log("global variable", window.dataSheetLoaded);
+  componentDidMount() {
+    this.infoFromAnalyzer();
+  }
 
+  render() {
     return (
       <Fragment>
         {this.userId_environment()}

@@ -54,8 +54,9 @@ class RunScript extends Component {
           info.action === "" ||
           info.action_name === "" ||
           info.variable === "" ||
-          info.value === "" ||
-          info.action === "new"
+          info.action != "remove"
+            ? info.value === ""
+            : null || info.action === "new"
             ? info.url === ""
             : null
         ) {
