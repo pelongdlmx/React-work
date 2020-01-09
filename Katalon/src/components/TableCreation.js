@@ -135,7 +135,8 @@ class TableCreation extends Component {
         environment: environment,
         importedData: file,
         data: importedData,
-        loaded: true
+        loaded: true,
+        edited: true
       });
     }
   }
